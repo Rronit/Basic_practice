@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<style>
+  #centered {
+    position: absolute;
+    left: 50%;
+    margin-left: -25%;
+  }
+</style>
+
+<head>
+  Simple Form
+</head>
+<br>
+<hr>
+
+<body>
+  <div style="width: 50%;">
+
+    <div id="centered">
+
+      <div>
+
+        <label for="commentBox">Add Your Comment:</label>
+      </div>
+      <br>
+      <div>
+        <textarea id="commentBox" rows="4" cols="40" placeholder="Enter here..."></textarea>
+      </div>
+      <div style="margin-left: 80%;">
+
+        <input type="button" id="submit" value="Add" style="width: 100%;">
+      </div>
+      <div id="textDisplay" style="height: 200px;overflow-y: scroll;margin-top: 20px;"></div>
+      <div style="margin-left: 80%;">
+
+        <input type="button" id="clear" value="Clear All" style="width: 100%;">
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  let CommentArray = [];
+  const text1 = document.getElementById("commentBox");
+  const btnAdd = document.getElementById("submit");
+  const btnClear = document.getElementById("clear");
+  const viewArea = document.getElementById("textDisplay");
+  (() => {
+    let prevComm = localStorage.getItem("textList");
+    console.log(prevComm);
+    if (prevComm !== null) {
+      CommentArray = JSON.parse(prevComm);
+      console.log(CommentArray.length);
+      CommentArray.forEach((text) => {
+        let li = document.createElement("li");
+        li.innerHTML = text;
+        // li.innerHTML = text1.value;
+        viewArea.appendChild(li);
+      })
+    }
+  })()
+  const handleClick = () => {
+    if (text1.value.trim() === "") {
+      alert("Please Type something");
+      return;
+    }
+    CommentArray.push(text1.value);
+    localStorage.setItem("textList", JSON.stringify(CommentArray))
+    viewArea.innerHTM = "";
+    // CommentArray.forEach((text) => {
+    let li = document.createElement("li");
+    // li.innerHTML = text;
+    li.innerHTML = text1.value;
+    viewArea.appendChild(li);
+    // })
+    // viewArea.innerHTML = CommentArray.join(", ");
+    text1.value = "";
+  }
+  const handleClear = () => {
+    localStorage.clear();
+    viewArea.innerHTML = "";
+    CommentArray = []
+  }
+  btnAdd.addEventListener('click', handleClick);
+  btnClear.addEventListener('click', handleClear);
+
+</script>
+
+</html>

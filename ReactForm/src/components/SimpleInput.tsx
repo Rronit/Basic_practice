@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const SimpleInput = () => {
   const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
   const [isValid, setIsValid] = React.useState(true);
+  const [isEmailValid, setIsEmailValid] = React.useState(true);
   // const [isFormValid, setIsFormValid] = React.useState(false);
 
   let isFormValid = false;
 
-  if (name.trim() !== "") {
+  if (name.trim() !== "" && email.trim() !== "" && email.includes("@")) {
     isFormValid = true;
   }
   const handleNameChange = event => {
@@ -16,7 +18,18 @@ const SimpleInput = () => {
       setIsValid(true);
     }
   };
-  const handleNameBlur = event => {
+  const handleEmailBlur = () => {
+    if (email.trim() === "" || !email.includes("@")) {
+      setIsEmailValid(false);
+    }
+  };
+  const handleEmailChange = event => {
+    setEmail(event.target.value);
+    if (event.target.value.trim() !== "" && event.target.value.includes("@")) {
+      setIsEmailValid(true);
+    }
+  };
+  const handleNameBlur = () => {
     if (name.trim() === "") {
       setIsValid(false);
     }
@@ -42,7 +55,18 @@ const SimpleInput = () => {
           value={name}
           onBlur={handleNameBlur}
         />
-        {!isValid && <p className="error-text">Please Enter this value</p>}
+        {!isValid && <p className="error-text">Please Enter valid Name</p>}
+        <label htmlFor="email">Your Email</label>
+        <input
+          type="text"
+          id="email"
+          onChange={handleEmailChange}
+          value={email}
+          onBlur={handleEmailBlur}
+        />
+        {!isEmailValid && (
+          <p className="error-text">Please Enter valid Email</p>
+        )}
       </div>
       <div className="form-actions">
         <button disabled={!isFormValid}>Submit</button>

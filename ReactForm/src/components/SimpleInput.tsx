@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const SimpleInput = () => {
   const [name, setName] = React.useState("");
   const [isValid, setIsValid] = React.useState(true);
+  const [isFormValid, setIsFormValid] = React.useState(false);
+
+  useEffect(() => {
+    if (name.trim() !== "") {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [name]);
   const handleNameChange = event => {
     setName(event.target.value);
     if (event.target.value.trim() !== "") {
@@ -38,7 +47,7 @@ const SimpleInput = () => {
         {!isValid && <p className="error-text">Please Enter this value</p>}
       </div>
       <div className="form-actions">
-        <button>Submit</button>
+        <button disabled={!isFormValid}>Submit</button>
       </div>
     </form>
   );

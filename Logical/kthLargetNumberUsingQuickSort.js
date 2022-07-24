@@ -2,9 +2,13 @@ const quickSelect = (array, left, right) => {
   console.log(array, left, right);
   if (left < right) {
     const partitionIndx = partition(array, left, right);
-    console.log(partitionIndx);
-    quickSelect(array, left, partitionIndx - 1);
-    quickSelect(array, partitionIndx + 1, right);
+    if (partitionIndx === IndexToFind) {
+      return array[partitionIndx];
+    } else if (IndexToFind < partitionIndx) {
+      return quickSort(array, left, partitionIndx - 1, IndexToFind);
+    } else {
+      return quickSort(array, partitionIndx + 1, right, IndexToFind);
+    }
   }
 };
 
